@@ -3,6 +3,12 @@
 A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin that shows your
 remaining **OpenCode Go** quota beside the composer, read live from the OpenCode Go usage API.
 
+![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-Plugin-4D6BFE?logo=deepseek&logoColor=white)
+![License](https://img.shields.io/github/license/kirschtinte/dsh-opencode-go-quota)
+![Type](https://img.shields.io/badge/Type-Host%20plugin-blue)
+![Data source](https://img.shields.io/badge/Data%20source-OpenCode%20Go%20usage%20API-important)
+![Tool slot](https://img.shields.io/badge/Tool%20slot-composer%20dock-lightgrey)
+
 [中文说明](README.zh.md)
 
 ```

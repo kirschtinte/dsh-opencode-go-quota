@@ -3,6 +3,12 @@
 一个 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 插件：在输入框旁实时显示你的
 **OpenCode Go** 剩余额度，数据直接读自 OpenCode Go 的用量接口。
 
+![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-生态插件-4D6BFE?logo=deepseek&logoColor=white)
+![License](https://img.shields.io/github/license/kirschtinte/dsh-opencode-go-quota)
+![类型](https://img.shields.io/badge/类型-Host%20插件-blue)
+![数据源](https://img.shields.io/badge/数据源-OpenCode%20Go%20usage%20API-important)
+![宿主槽位](https://img.shields.io/badge/宿主槽位-composer%20dock-lightgrey)
+
 [English](README.md)
 
 ```
