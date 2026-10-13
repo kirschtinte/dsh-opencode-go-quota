@@ -33,12 +33,19 @@ Click the pill for a per-window breakdown with progress bars and reset countdown
 
 ## Install
 
-The plugin is a local Harness bundle. Clone it somewhere permanent, then install that
-directory into your profile:
+The plugin is a local Harness bundle with one runtime dependency, so install its packages
+before handing the directory to Harness:
 
 ```bash
 git clone https://github.com/kirschtinte/dsh-opencode-go-quota.git
+cd dsh-opencode-go-quota
+pnpm install        # or: npm install --omit=dev
 ```
+
+The dependency is `@deepseek-ai/schemastery`, which declares the plugin's `Config` schema. It
+has to be installed here rather than by Harness: `install_bundle` links the directory with
+`link:`, and pnpm does not install a linked package's own dependencies. Skip this step and the
+plugin still activates, but Harness cannot validate the row or render its configuration form.
 
 Then ask Harness to install it — through the agent, using the bundled plugin manager with the
 **absolute path** of the cloned directory as its target:
@@ -54,7 +61,9 @@ profile files or run a package manager in the profile directory.
 
 ## Configuration
 
-Options live on the inserted row in your profile's `cordis.patch.yml`:
+The row's `Config` schema is declared in [`index.js`](index.js), so Harness validates these
+values on activation and the Plugin Manager renders a form for them. They can equally be set by
+hand on the inserted row in your profile's `cordis.patch.yml`:
 
 ```yaml
 - insert:
@@ -63,8 +72,10 @@ Options live on the inserted row in your profile's `cordis.patch.yml`:
       config:
         baseUrl: https://opencode.ai/zen/go   # API root; `/v1/usage` is appended
         credentialRef: OPENCODE_GO_API_KEY    # credential reference holding the key
-        refreshMs: 60000                      # cache lifetime, minimum 5000
+        refreshMs: 60000                      # cache lifetime, 5000-3600000
 ```
+
+All three are optional and fall back to exactly these defaults.
 
 Changing the host half requires an application restart; the browser half reloads with a page
 refresh.
@@ -73,11 +84,13 @@ refresh.
 
 **Host half** ([`index.js`](index.js)) reads the credential through Harness's credential
 service, calls `GET <baseUrl>/v1/usage`, normalizes the three windows into plain JSON and
-caches the result. It imports nothing: a profile-installed bundle resolves bare specifiers
-against its own directory, which holds no Harness packages. The service is exposed to the
-browser through Typert Gateway's *source mode*, which derives a wire descriptor from runtime
-reflection instead of a generated artifact — that is why the two exported methods take no
-arguments and are declared as a literal prototype marker.
+caches the result. Apart from the `Config` schema it imports nothing: a profile-installed bundle
+resolves bare specifiers against its own directory, so the packages Harness itself uses are out
+of reach — `@deepseek-ai/schemastery` is the one exception, and it is a declared dependency
+rather than a Harness internal. The service is exposed to the browser through Typert Gateway's
+*source mode*, which derives a wire descriptor from runtime reflection instead of a generated
+artifact — that is why the two exported methods take no arguments and are declared as a literal
+prototype marker.
 
 **Browser half** ([`client.js`](client.js)) mounts those endpoints as a `remote` namespace and
 registers a pill into the `conversation.composer.dock` slot. It imports no Harness Client
