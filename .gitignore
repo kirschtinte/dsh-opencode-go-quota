@@ -8,7 +8,15 @@ node_modules/
 # macOS
 .DS_Store
 
-# Editors
+# Editor and shell scratch
 .vscode/
 .idea/
 *.swp
+
+# Never commit a key that a command happened to generate in this directory.
+# `ssh-keygen` writes to the working directory when given a bare filename.
+id_ed25519*
+id_rsa*
+id_ecdsa*
+*.pem
+gitkey*

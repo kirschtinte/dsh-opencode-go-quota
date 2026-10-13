@@ -1,4 +1,4 @@
-# opencode-go-quota
+# dsh-opencode-go-quota
 
 A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin that shows your
 remaining **OpenCode Go** quota beside the composer, read live from the OpenCode Go usage API.
@@ -31,7 +31,7 @@ The plugin is a local Harness bundle. Clone it somewhere permanent, then install
 directory into your profile:
 
 ```bash
-git clone https://github.com/kirschtinte/opencode-go-quota.git
+git clone https://github.com/kirschtinte/dsh-opencode-go-quota.git
 ```
 
 Then ask Harness to install it — through the agent, using the bundled plugin manager with the
@@ -39,7 +39,7 @@ Then ask Harness to install it — through the agent, using the bundled plugin m
 
 ```
 plugin_manager  action: install_bundle
-                target: /absolute/path/to/opencode-go-quota
+                target: /absolute/path/to/dsh-opencode-go-quota
 ```
 
 `install_bundle` writes the profile's `package.json` and `cordis.patch.yml` for you and links
@@ -52,8 +52,8 @@ Options live on the inserted row in your profile's `cordis.patch.yml`:
 
 ```yaml
 - insert:
-    - id: opencode-go-quota
-      name: '@local/opencode-go-quota'
+    - id: dsh-opencode-go-quota
+      name: '@local/dsh-opencode-go-quota'
       config:
         baseUrl: https://opencode.ai/zen/go   # API root; `/v1/usage` is appended
         credentialRef: OPENCODE_GO_API_KEY    # credential reference holding the key

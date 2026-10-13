@@ -1,6 +1,6 @@
 - insert:
-    - id: opencode-go-quota
-      name: '@local/opencode-go-quota'
+    - id: dsh-opencode-go-quota
+      name: '@local/dsh-opencode-go-quota'
       config:
         # OpenCode Go API root; `/v1/usage` is appended.
         baseUrl: https://opencode.ai/zen/go

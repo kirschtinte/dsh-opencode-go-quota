@@ -44,7 +44,7 @@ const REQUEST_TIMEOUT_MS = 15_000
  * generic HTTP client; the session header matches the provider rows in
  * `cordis.patch.yml`.
  */
-const USER_AGENT = 'deepseek-harness/opencode-go-quota'
+const USER_AGENT = 'deepseek-harness/dsh-opencode-go-quota'
 const SESSION_LABEL = 'deepseek-harness'
 
 /** Window identities, in the order the API returns them and the UI shows them. */

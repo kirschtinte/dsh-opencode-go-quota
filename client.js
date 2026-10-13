@@ -14,18 +14,18 @@
  */
 
 window.__ModuleLoader__.load({
-  id: '@local/opencode-go-quota',
+  id: '@local/dsh-opencode-go-quota',
   factory(require) {
     const React = require('react')
     const h = React.createElement
     const { useCallback, useEffect, useRef, useState } = React
 
     /** Locale dictionary namespace. */
-    const NS = 'opencode-go-quota'
+    const NS = 'dsh-opencode-go-quota'
     /** Wire namespace the Host half publishes. */
     const SERVICE_KEY = 'opencodeQuota'
     /** Slot filler id; unique so the pill sits beside shipped dock entries. */
-    const ENTRY_ID = 'opencode-go-quota'
+    const ENTRY_ID = 'dsh-opencode-go-quota'
     /** How often the browser asks for a snapshot. */
     const POLL_MS = 60_000
     /**
@@ -629,15 +629,15 @@ body[data-ds-dark-theme] .${P}-panel__bg::before {
      * @param ctx - the Client plugin context.
      */
     function apply(ctx) {
-      ctx.effect(() => ctx.locale.register(NS, { en, zh }), 'opencode-go-quota: dictionaries')
+      ctx.effect(() => ctx.locale.register(NS, { en, zh }), 'dsh-opencode-go-quota: dictionaries')
 
       // Source mode on the Host derives the endpoints from the service itself,
       // so the Client descriptor only has to name them. Both take no arguments,
       // which is what keeps a hand-written descriptor acceptable here.
       const mounted = ctx.remote.$mount({
-        package: '@local/opencode-go-quota',
+        package: '@local/dsh-opencode-go-quota',
         descriptors: ['usage', 'refresh'].map((method) => ({
-          id: `@local/opencode-go-quota#${SERVICE_KEY}/${method}`,
+          id: `@local/dsh-opencode-go-quota#${SERVICE_KEY}/${method}`,
           service: SERVICE_KEY,
           namespace: SERVICE_KEY,
           method,

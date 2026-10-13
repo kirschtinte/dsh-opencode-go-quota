@@ -1,5 +1,5 @@
 {
-  "name": "@local/opencode-go-quota",
+  "name": "@local/dsh-opencode-go-quota",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -15,13 +15,13 @@
   ],
   "author": "kirschtinte",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/kirschtinte/opencode-go-quota#readme",
+  "homepage": "https://github.com/kirschtinte/dsh-opencode-go-quota#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kirschtinte/opencode-go-quota.git"
+    "url": "git+https://github.com/kirschtinte/dsh-opencode-go-quota.git"
   },
   "bugs": {
-    "url": "https://github.com/kirschtinte/opencode-go-quota/issues"
+    "url": "https://github.com/kirschtinte/dsh-opencode-go-quota/issues"
   },
   "icon": "./icon.svg",
   "exports": {

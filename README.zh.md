@@ -1,4 +1,4 @@
-# opencode-go-quota
+# dsh-opencode-go-quota
 
 一个 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 插件：在输入框旁实时显示你的
 **OpenCode Go** 剩余额度，数据直接读自 OpenCode Go 的用量接口。
@@ -30,14 +30,14 @@
 这是一个本地 Harness bundle。先克隆到一个固定的位置：
 
 ```bash
-git clone https://github.com/kirschtinte/opencode-go-quota.git
+git clone https://github.com/kirschtinte/dsh-opencode-go-quota.git
 ```
 
 然后让 Harness 安装它——通过 agent 调用内置的插件管理器，**target 填克隆目录的绝对路径**：
 
 ```
 plugin_manager  action: install_bundle
-                target: /absolute/path/to/opencode-go-quota
+                target: /absolute/path/to/dsh-opencode-go-quota
 ```
 
 `install_bundle` 会替你写 profile 的 `package.json` 和 `cordis.patch.yml`，并把该目录软链进去，
@@ -50,8 +50,8 @@ profile 目录里跑包管理器。
 
 ```yaml
 - insert:
-    - id: opencode-go-quota
-      name: '@local/opencode-go-quota'
+    - id: dsh-opencode-go-quota
+      name: '@local/dsh-opencode-go-quota'
       config:
         baseUrl: https://opencode.ai/zen/go   # 接口根地址，会拼上 /v1/usage
         credentialRef: OPENCODE_GO_API_KEY    # 存放 key 的凭证引用名
