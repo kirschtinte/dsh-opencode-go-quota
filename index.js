@@ -1,14 +1,9 @@
 /**
  * Host half of the OpenCode Go quota bundle.
  *
- * Apart from the config schema, this module imports nothing: a profile-installed
- * bundle resolves bare specifiers against its own directory, so the Harness
- * packages the installation itself uses are out of reach. Everything else is
- * reached through `ctx` or plain ECMAScript. `@deepseek-ai/schemastery` is the
- * one exception, and it is a declared dependency rather than a Harness internal;
- * the Loader validates a plugin's `Config` through the Standard Schema interface
- * (`Config['~standard'].validate`), so this copy does not have to be the one the
- * installation ships.
+ * This module deliberately imports nothing: a profile-installed bundle resolves
+ * bare specifiers against its own directory, which holds no Harness packages.
+ * Everything it needs is reached through `ctx` or plain ECMAScript.
  *
  * The service is exposed to the browser half over Typert Gateway's *source
  * mode*, which derives a wire descriptor from runtime reflection instead of a
@@ -22,8 +17,6 @@
  * list. `usage` and `refresh` take no arguments for that reason, and because the
  * Client refuses a mounted descriptor whose parameters carry no strict codec.
  */
-
-import z from '@deepseek-ai/schemastery'
 
 /** Wire namespace and Cordis service key; both are the same endpoint segment. */
 const SERVICE_KEY = 'opencodeQuota'
@@ -43,33 +36,8 @@ const DEFAULT_REFRESH_MS = 60_000
 /** Floor for the configured interval, so a misconfiguration cannot hammer the API. */
 const MIN_REFRESH_MS = 5_000
 
-/** Ceiling for the configured interval, so a typo cannot freeze the readout for days. */
-const MAX_REFRESH_MS = 3_600_000
-
 /** Upper bound for one HTTP round trip. */
 const REQUEST_TIMEOUT_MS = 15_000
-
-/**
- * Validation schema for this plugin's Loader row.
- *
- * Declaring it lets Harness validate the row on activation and render a config
- * form in the Plugin Manager, so the three tunables no longer have to be edited
- * by hand. The defaults live in the constants above so the schema and the
- * defensive normalizer below cannot drift apart.
- */
-export const Config = z.object({
-  baseUrl: z.string()
-    .description('OpenCode Go API root. `/v1/usage` is appended.')
-    .default(DEFAULT_BASE_URL),
-  credentialRef: z.string()
-    .description('Name of the stored credential holding the OpenCode Go API key.')
-    .default(DEFAULT_CREDENTIAL_REF),
-  refreshMs: z.natural()
-    .min(MIN_REFRESH_MS)
-    .max(MAX_REFRESH_MS)
-    .description(`Cache lifetime and browser poll cadence in milliseconds (${MIN_REFRESH_MS}-${MAX_REFRESH_MS}).`)
-    .default(DEFAULT_REFRESH_MS),
-})
 
 /**
  * Sent so OpenCode can attribute this traffic to a coding agent rather than a
@@ -83,11 +51,7 @@ const SESSION_LABEL = 'deepseek-harness'
 const WINDOW_ORDER = ['rolling', 'weekly', 'monthly']
 
 /**
- * Resolve the row config into a frozen options object.
- *
- * The Loader validates the row against {@link Config} before activation, so this
- * is a defense for a direct mount as much as the normal path; it clamps to the
- * same bounds the schema declares, so both agree on what a usable row is.
+ * Resolve the configured row config into a frozen options object.
  * @param config - the Loader row's `config`, which may be absent entirely.
  * @returns resolved options with defaults applied.
  */
@@ -100,11 +64,10 @@ function normalizeOptions(config) {
   const credentialRef = typeof source.credentialRef === 'string' && source.credentialRef.length > 0
     ? source.credentialRef
     : DEFAULT_CREDENTIAL_REF
-  const usableInterval = Number.isFinite(refreshMs) && refreshMs >= MIN_REFRESH_MS && refreshMs <= MAX_REFRESH_MS
   return Object.freeze({
     baseUrl,
     credentialRef,
-    refreshMs: usableInterval ? refreshMs : DEFAULT_REFRESH_MS,
+    refreshMs: Number.isFinite(refreshMs) && refreshMs >= MIN_REFRESH_MS ? refreshMs : DEFAULT_REFRESH_MS,
   })
 }
 

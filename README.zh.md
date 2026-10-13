@@ -33,17 +33,11 @@
 
 ## 安装
 
-这是一个本地 Harness bundle，带一个运行时依赖，所以先把依赖装上再交给 Harness：
+这是一个本地 Harness bundle。先克隆到一个固定的位置：
 
 ```bash
 git clone https://github.com/kirschtinte/dsh-opencode-go-quota.git
-cd dsh-opencode-go-quota
-pnpm install        # 或者: npm install --omit=dev
 ```
-
-依赖是 `@deepseek-ai/schemastery`，用来声明插件的 `Config` schema。它必须在这里安装，
-不能指望 Harness 装：`install_bundle` 是用 `link:` 软链目录的，而 pnpm **不会安装被链接包
-自身的依赖**。跳过这步插件照样能激活，但 Harness 就无法校验这一行的配置、也渲染不出配置表单。
 
 然后让 Harness 安装它——通过 agent 调用内置的插件管理器，**target 填克隆目录的绝对路径**：
 
@@ -58,8 +52,7 @@ profile 目录里跑包管理器。
 
 ## 配置
 
-`Config` schema 声明在 [`index.js`](index.js) 里，所以 Harness 会在激活时校验这些值，插件管理器
-也会为它们渲染出配置表单。同样也可以手工写在 profile 的 `cordis.patch.yml` 里那一行上：
+配置项写在 profile 的 `cordis.patch.yml` 里那一行上：
 
 ```yaml
 - insert:
@@ -68,21 +61,18 @@ profile 目录里跑包管理器。
       config:
         baseUrl: https://opencode.ai/zen/go   # 接口根地址，会拼上 /v1/usage
         credentialRef: OPENCODE_GO_API_KEY    # 存放 key 的凭证引用名
-        refreshMs: 60000                      # 缓存时长，5000-3600000
+        refreshMs: 60000                      # 缓存时长，下限 5000
 ```
-
-三项都可省略，省略时即取上面这些默认值。
 
 改宿主半需要重启应用；浏览器半刷新页面即可。
 
 ## 实现方式
 
 **宿主半**（[`index.js`](index.js)）通过 Harness 的凭证服务读取 key，请求
-`GET <baseUrl>/v1/usage`，把三个窗口整理成纯 JSON 并缓存。除了 `Config` schema 之外它
-**不 import 任何东西**：profile 安装的 bundle 解析裸模块名时会从自己的目录往上找，而那个目录里
-没有 Harness 自身的包——`@deepseek-ai/schemastery` 是唯一例外，它是显式声明的依赖，不是 Harness
-内部件。服务通过 Typert Gateway 的 *source mode* 暴露给浏览器——该模式从运行时反射推导出通信
-描述符，不需要代码生成产物。这也是那两个导出方法不收参数、并以字面量原型标记声明的原因。
+`GET <baseUrl>/v1/usage`，把三个窗口整理成纯 JSON 并缓存。它**不 import 任何东西**：
+profile 安装的 bundle 解析裸模块名时会从自己的目录往上找，而那个目录里没有 Harness 的包。
+服务通过 Typert Gateway 的 *source mode* 暴露给浏览器——该模式从运行时反射推导出通信描述符，
+不需要代码生成产物。这也是那两个导出方法不收参数、并以字面量原型标记声明的原因。
 
 **浏览器半**（[`client.js`](client.js)）把这些端点挂载成 `remote` 命名空间，并把一个胶囊
 注册进 `conversation.composer.dock` 槽位。它同样不 import 任何 Harness 客户端包：React 来自

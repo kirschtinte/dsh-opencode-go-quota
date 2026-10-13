@@ -24,9 +24,6 @@
     "url": "https://github.com/kirschtinte/dsh-opencode-go-quota/issues"
   },
   "icon": "./icon.svg",
-  "dependencies": {
-    "@deepseek-ai/schemastery": "3.18.4"
-  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
