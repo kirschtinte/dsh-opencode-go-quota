@@ -1,0 +1,52 @@
+{
+  "name": "@local/opencode-go-quota",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shows remaining OpenCode Go quota (5-hour, weekly, monthly) beside the DeepSeek Harness composer, read live from the OpenCode Go usage API.",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "opencode",
+    "opencode-go",
+    "quota",
+    "usage"
+  ],
+  "author": "kirschtinte",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/kirschtinte/opencode-go-quota#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirschtinte/opencode-go-quota.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kirschtinte/opencode-go-quota/issues"
+  },
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

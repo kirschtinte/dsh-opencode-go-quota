@@ -1,0 +1,14 @@
+# Nothing here is installed: the plugin ships no dependencies and the profile
+# links this directory rather than copying it.
+node_modules/
+
+# Harness runtime state, if anyone ever runs the app with this as its cwd.
+.dsh/
+
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenCode Go Quota",
+    "description": "Shows remaining OpenCode Go quota (5-hour, weekly, monthly) beside the composer, read live from the OpenCode Go usage API."
+  }
+}

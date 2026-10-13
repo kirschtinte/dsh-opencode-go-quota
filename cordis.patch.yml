@@ -1,0 +1,10 @@
+- insert:
+    - id: opencode-go-quota
+      name: '@local/opencode-go-quota'
+      config:
+        # OpenCode Go API root; `/v1/usage` is appended.
+        baseUrl: https://opencode.ai/zen/go
+        # Credential reference holding the OpenCode Go key.
+        credentialRef: OPENCODE_GO_API_KEY
+        # Cache lifetime, and the browser's poll cadence. Minimum 5000.
+        refreshMs: 60000

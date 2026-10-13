@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenCode Go 额度",
+    "description": "在输入框旁实时显示 OpenCode Go 的剩余额度（5 小时 / 每周 / 每月），数据直接读取 OpenCode Go 用量接口。"
+  }
+}
